@@ -1,8 +1,8 @@
 import React,{useState, useEffect,useRef} from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
 
 const AdminDashboard = () => {
   const [id,setId] = useState("")
@@ -14,7 +14,7 @@ const AdminDashboard = () => {
   const [ratings, setRatings] = useState("")
   const inputRef = useRef(null)
 
-  const navigate = useNavigate()
+  let navigate = useNavigate()
 
   function handleImage(e){
     let file = e.target.files[0]
@@ -31,11 +31,16 @@ const AdminDashboard = () => {
     reader.readAsDataURL(file)
   }
 
-  function addProduct(e){
+  async function addProduct(e){
     e.preventDefault()
-    const products = {id,name, price, category, description,image,ratings}
-    axios.post("http://localhost:3000/products",products)
-    .then(()=>{
+    if (!image) {
+      toast.error("Please select an image")
+      return
+    }
+
+    const product = {id, name, price, category, description, image, ratings}
+    try {
+      await axios.post("http://localhost:3000/products", product)
       toast.success("Product Added")
       setId("")
       setName("")
@@ -44,17 +49,18 @@ const AdminDashboard = () => {
       setDescription("")
       setImage("")
       setRatings("")
-      inputRef.current.value = ""
-    })
-    .catch(err=>toast.error("Failed to Add"))
+      if (inputRef.current) inputRef.current.value = ""
+    } catch (err) {
+      console.error("Add product failed", err)
+      toast.error(err?.response?.data || err?.message || "Failed to Add")
+    }
   }
   return (
     <>
-    <div style={{background:"linear-gradient(to right,rgb(108, 124, 120))",height:"75px"}}>
-      <Link to= "/" style={{textDecoration:"none",color:"white"}}><h2>Back to Home Page</h2></Link>
+    <div style={{background:"linear-gradient(rgb(108, 124, 120))", height:"75px"}}>
+        <Link to={"/"}><h2>Back to Home page</h2></Link>
     </div>
-
-    <button onClick={()=>{navigate("/addedproducts")}}>View Products</button>
+    <button onClick={()=>{navigate("/addedproducts")}}>View Added Products</button>
       <center><h1>Welcome to Dashboard</h1></center>
 
       <center>Add Products</center>
@@ -100,6 +106,7 @@ const AdminDashboard = () => {
           <input 
           type="file" 
           required 
+          accept="image/*"
           onChange={handleImage}
           ref={inputRef}
           /> <br />
