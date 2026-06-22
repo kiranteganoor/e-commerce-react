@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 
 const Homepage = () =>{
+    const navigate = useNavigate();
+
     return(
         <>
         <Navbar/>
@@ -17,7 +20,7 @@ const Homepage = () =>{
         <div className="middle">
             <center>
             <h1><p>Welcome to E-Commerce Website</p></h1><br/>
-            <button id="btn-middle">Shop Now</button>
+            <button id="btn-middle" onClick={() => navigate('/usersignup')}>Shop Now</button>
             </center>
         </div>
           <center><h1>Products</h1></center>
@@ -34,8 +37,22 @@ const Homepage = () =>{
         <img src="https://png.pngtree.com/png-clipart/20240608/original/pngtree-3d-photo-of-colorful-toys-for-children-on-transparent-background-png-image_15280851.png" alt="" />
         <img src="https://focally.in/wp-content/uploads/2024/01/Spectunes_blackwayfraeresamrtglass1.png" alt="" />
       </div>
-       
 
+        <footer className="homepage-footer">
+          <div className="footer-content">
+            <div>
+              <h2>ShopEase</h2>
+              <p>Fast shopping, easy checkout, and secure payment.</p>
+            </div>
+
+            <div className="footer-links">
+              <Link to="/userlogin">Login</Link>
+              <Link to="/usersignup">Sign Up</Link>
+              <Link to="/usersignup">Dashboard</Link>
+            </div>
+          </div>
+          <p className="footer-copy">© 2026 ShopEase. All rights reserved.</p>
+        </footer>
         </>
     )
 }

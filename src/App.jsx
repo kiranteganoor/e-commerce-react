@@ -8,6 +8,7 @@ import UserLogin from "./pages/UserLogin";
 import UserDashboard from "./pages/UserDashboard";
 import {Routes,Route} from "react-router-dom"
 import ProductDetail from "./pages/ProductDetail";
+import OrderDetail from "./pages/OrderDetail";
 const App = () =>{
   return(
     <>
@@ -20,6 +21,11 @@ const App = () =>{
       <Route path="/userlogin" element={<UserLogin/>}/>
       <Route path="/userdashboard" element={<UserDashboard/>}/>
       <Route path="/productdetail/:id" element={<ProductDetail/>}/>
+      <Route path="/orders" element={<OrderDetail/>}/>
+      <Route path="/orderdetail" element={<OrderDetail/>}/>
+      <Route path="/orderdetail/:id" element={<OrderDetail/>}/>
+      <Route path="*" element={<OrderDetail/>}/>
+
 
       
       

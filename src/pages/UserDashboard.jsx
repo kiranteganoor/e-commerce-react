@@ -9,6 +9,17 @@ const UserDashboard = () => {
 
   const [user, setUser] = useState({});
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const categories = [
+    "All",
+    "Electronics",
+    "Fashion",
+    "Mobiles",
+    "Laptops",
+  ];
 
   const loggedInID = localStorage.getItem("id");
 
@@ -17,6 +28,59 @@ const UserDashboard = () => {
     navigate("/userlogin");
     toast.success("Logout Done...");
   }
+
+  const handleSearchChange = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+
+    if (!value.trim()) {
+      setSuggestions([]);
+      return;
+    }
+
+    const filtered = products
+      .filter((product) =>
+        product.name.toLowerCase().startsWith(value.toLowerCase())
+      )
+      .slice(0, 8);
+
+    setSuggestions(filtered);
+  };
+
+  const handleSuggestionClick = (product) => {
+    setSearchTerm(product.name);
+    setSuggestions([]);
+    navigate(`/productdetail/${product.id}`);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const match = products.find((product) =>
+      product.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+    );
+    if (match) {
+      navigate(`/productdetail/${match.id}`);
+    }
+  };
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    setSearchTerm("");
+    setSuggestions([]);
+  };
+
+  const filteredProducts =
+    activeCategory === "All"
+      ? products
+      : products.filter((product) => {
+          const productCategory = product.category?.toLowerCase() || "";
+          const selectedCategory = activeCategory.toLowerCase();
+          return (
+            productCategory === selectedCategory ||
+            productCategory.includes(selectedCategory) ||
+            selectedCategory.includes(productCategory)
+          );
+        });
 
   useEffect(() => {
     axios
@@ -194,6 +258,41 @@ const UserDashboard = () => {
         transform:scale(1.05);
       }
 
+      .search-input-wrapper{
+        position:relative;
+        width:400px;
+      }
+
+      .suggestions-box{
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        background:white;
+        border-radius:16px;
+        box-shadow:0 15px 40px rgba(15,23,42,.12);
+        margin-top:10px;
+        max-height:280px;
+        overflow:auto;
+        z-index:10;
+      }
+
+      .suggestion-item{
+        padding:14px 18px;
+        cursor:pointer;
+        color:#0f172a;
+        transition:background .2s ease;
+      }
+
+      .suggestion-item:hover{
+        background:#eff6ff;
+      }
+
+      .search-input:focus + .suggestions-box,
+      .suggestion-item:hover{
+        outline:none;
+      }
+
       /* Categories */
 
       .category-section{
@@ -233,6 +332,12 @@ const UserDashboard = () => {
         transform:
         translateY(-5px)
         scale(1.05);
+      }
+
+      .category-btn.active{
+        background:#2563eb;
+        color:white;
+        box-shadow:0 12px 25px rgba(37,99,235,.18);
       }
 
       /* Products */
@@ -416,13 +521,30 @@ const UserDashboard = () => {
           </h1>
         </div>
 
-        <form className="search-box">
-          <input
-            type="text"
-            placeholder="Search Products..."
-            className="search-input"
-            required
-          />
+        <form className="search-box" onSubmit={handleSearchSubmit}>
+          <div className="search-input-wrapper">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder="Search Products..."
+              className="search-input"
+              autoComplete="off"
+            />
+            {suggestions.length > 0 && (
+              <div className="suggestions-box">
+                {suggestions.map((product) => (
+                  <div
+                    key={product.id}
+                    className="suggestion-item"
+                    onClick={() => handleSuggestionClick(product)}
+                  >
+                    {product.name}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           <button className="search-btn">
             Search
@@ -430,21 +552,15 @@ const UserDashboard = () => {
         </form>
 
         <div className="category-section">
-          <button className="category-btn">
-            Electronics
-          </button>
-
-          <button className="category-btn">
-            Fashion
-          </button>
-
-          <button className="category-btn">
-            Mobiles
-          </button>
-
-          <button className="category-btn">
-            Laptops
-          </button>
+          {categories.map((category) => (
+            <button
+              key={category}
+              className={`category-btn ${activeCategory === category ? "active" : ""}`}
+              onClick={() => handleCategoryClick(category)}
+            >
+              {category}
+            </button>
+          ))}
         </div>
 
         <h1 className="products-title">
@@ -452,7 +568,7 @@ const UserDashboard = () => {
         </h1>
 
         <div className="products-container">
-          {products.map((x) => (
+          {filteredProducts.map((x) => (
             <div
               className="product-card"
               key={x.id}

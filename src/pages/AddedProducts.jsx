@@ -14,11 +14,13 @@ const AddedProducts = () =>{
         <>
         <button onClick={()=> navigate('/admindashboard')}>DashBoard</button>
         <center><h1>Products List</h1></center>
+        <div className="addedproducts1">
         {products.map((x)=>{
             return <div>
                 <img src={x.image} height={"200px"} alt="" />
             </div>
         })}
+        </div>
         </>
     )
 }

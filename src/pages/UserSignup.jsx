@@ -51,51 +51,46 @@ const UserSignup = () => {
   }
 
   return (
-    <>
-      <center>
+    <div className="signup-page">
+      <div className="signup-card">
         <h1>Signup Page</h1>
-      
-      <form onSubmit={signup}>
-        <input
-          type="text"
-          placeholder="Enter UserName"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <br />
-        <input
-          type="email"
-          placeholder="Enter Email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <br />
-        <input
-          type="tel"
-          placeholder="Enter Phone.No"
-          required
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Enter Password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br />
-        <input type="file" required onChange={handleImage} ref={inputRef} />
-        <br />
-        <button>Signup</button>
-      </form>
-      </center>
-
-      <center>Are you Existing User? <Link to ={"/userlogin"}>Login</Link></center>
-    </>
+        <form className="signup-form" onSubmit={signup}>
+          <input
+            type="text"
+            placeholder="Enter username"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Enter email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="tel"
+            placeholder="Enter phone number"
+            required
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Enter password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input type="file" required onChange={handleImage} ref={inputRef} />
+          <button type="submit">Signup</button>
+        </form>
+        <p className="signup-footer">
+          Already have an account? <Link to="/userlogin">Login</Link>
+        </p>
+      </div>
+    </div>
   );
 };
 

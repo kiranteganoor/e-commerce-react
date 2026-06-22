@@ -10,7 +10,7 @@ const Navbar2 = () =>{
             </div>
             <div className="left2">
                 <h1>Products</h1>
-                <h1>Orders</h1>
+                <Link to="/orders" style={{textDecoration:"none",color:"white"}}><h1>Orders</h1></Link>
                 <Link to="/userlogin" style={{textDecoration:"none",color:"white"}}><h1>LogOut</h1></Link>
                 
             </div>

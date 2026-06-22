@@ -31,16 +31,28 @@ const UserLogin = () => {
     })
 }
   return (
-    <>
-      <center><h1>Login Page</h1></center>
-      <center>
-        <form onSubmit={login}>
-          <input type="text" placeholder='Enter Email' required value={email} onChange={(e)=>{setEmail(e.target.value)}} /> <br />
-          <input type="text" placeholder='Enter password' required value={password} onChange={(e)=>setPassword(e.target.value)} /> <br />
-          <button>Login</button>
+    <div className="login-page">
+      <div className="login-card">
+        <h1>Login Page</h1>
+        <form className="login-form" onSubmit={login}>
+          <input
+            type="email"
+            placeholder="Enter email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Enter password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="submit">Login</button>
         </form>
-      </center>
-    </>
+      </div>
+    </div>
   )
 }
 

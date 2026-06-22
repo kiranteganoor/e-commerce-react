@@ -57,70 +57,80 @@ const AdminDashboard = () => {
   }
   return (
     <>
-    <div style={{background:"linear-gradient(rgb(108, 124, 120))", height:"75px"}}>
-        <Link to={"/"}><h2>Back to Home page</h2></Link>
-    </div>
-    <button onClick={()=>{navigate("/addedproducts")}}>View Added Products</button>
-      <center><h1>Welcome to Dashboard</h1></center>
+    <main className="admin-dashboard-page">
+      <header className="admin-dashboard-header">
+        <div className="admin-dashboard-actions">
+          <Link to={'/'}>Back to Home</Link>
+          <button className="secondary-btn" onClick={() => {navigate("/addedproducts")}}>
+            View Added Products
+          </button>
+        </div>
+      </header>
 
-      <center>Add Products</center>
-      <center>
-        <form onSubmit={addProduct}>
-          <input 
-          type="text" 
-          placeholder='Enter Product ID' 
-          required
-          value={id}
-          onChange={(e)=>{setId(e.target.value)}}
-          /> <br />
+      <section className="admin-dashboard-card">
+        <h1>Welcome to Dashboard</h1>
+        <p className="admin-subtitle">Add products to the store catalog</p>
 
-          <input 
-          type="text" 
-          placeholder='Enter Product name' 
-          required 
-          value={name}
-          onChange={(e)=>{setName(e.target.value)}}
-          /> <br />
+        <form className="admin-dashboard-form" onSubmit={addProduct}>
+          <input
+            type="text"
+            placeholder="Enter Product ID"
+            required
+            value={id}
+            onChange={(e) => {setId(e.target.value)}}
+          />
 
-          <input 
-          type="text" 
-          placeholder='Enter category' 
-          required 
-          value={category}
-          onChange={(e)=>{setCategory(e.target.value)}}
-          /> <br />
-          <input 
-          type="text" 
-          value={price}
-          onChange={(e)=>{setPrice(e.target.value)}}
-          placeholder='Enter Price' 
-          required /> <br />
+          <input
+            type="text"
+            placeholder="Enter Product name"
+            required
+            value={name}
+            onChange={(e) => {setName(e.target.value)}}
+          />
 
-          <textarea 
-          placeholder='Enter Description'
-          required
-          value={description}
-          onChange={(e)=>{setDescription(e.target.value)}}
-          ></textarea> <br />
+          <input
+            type="text"
+            placeholder="Enter category"
+            required
+            value={category}
+            onChange={(e) => {setCategory(e.target.value)}}
+          />
 
-          <input 
-          type="file" 
-          required 
-          accept="image/*"
-          onChange={handleImage}
-          ref={inputRef}
-          /> <br />
+          <input
+            type="text"
+            value={price}
+            onChange={(e) => {setPrice(e.target.value)}}
+            placeholder="Enter Price"
+            required
+          />
 
-          <input 
-          type="text" 
-          placeholder='Enter rating' 
-          required
-          value={ratings}
-          onChange={(e)=>setRatings(e.target.value)}
-          /> <br />
-          <button>Add</button>
+          <textarea
+            placeholder="Enter Description"
+            required
+            value={description}
+            onChange={(e) => {setDescription(e.target.value)}}
+          />
+
+          <input
+            type="file"
+            required
+            accept="image/*"
+            onChange={handleImage}
+            ref={inputRef}
+          />
+
+          <input
+            type="text"
+            placeholder="Enter rating"
+            required
+            value={ratings}
+            onChange={(e) => setRatings(e.target.value)}
+          />
+
+          <button type="submit">Add Product</button>
         </form>
-      </center>
+      </section>
+    </main>
     </>
   )
 }

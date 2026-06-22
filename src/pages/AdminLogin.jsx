@@ -20,14 +20,30 @@ import {toast} from "react-toastify"
   }
   return (
    <>
-   <center> <h1>Admin Login</h1>
-   <form action="" onSubmit={adminLogin}>
-    <input type="text" placeholder="Enter Email" required value={email} onChange={(e)=>setEmail(e.target.value)}/><br/><br/>
-    <input type="text" placeholder="Enter Password" required value={password} onChange={(e)=>setPassword(e.target.value)}/><br/><br/>
-    <button type="submit">Login</button>
-    <br/>
-    </form>
-    </center>
+    <main className="admin-login-page">
+      <div className="admin-login-card">
+        <h1>Admin Login</h1>
+        <form className="admin-login-form" onSubmit={adminLogin}>
+          <input
+            type="email"
+            placeholder="Enter Email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Enter Password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </main>
    </>
   )
 }
